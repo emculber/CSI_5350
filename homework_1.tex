@@ -1,0 +1,145 @@
+\documentclass{report}
+\usepackage[showframe=false]{geometry}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{qtree}
+\usepackage{lscape}
+
+\pagenumbering{gobble}
+
+\geometry{tmargin=60pt,bmargin=90pt,lmargin=90pt,
+rmargin=90pt}
+
+\titleformat{\chapter}{\normalfont\huge}{\thechapter.}{20pt}{\huge}
+\titlespacing*{\chapter} {0pt}{0pt}{10pt}
+
+\begin{document}
+
+\chapter{Grammer}
+
+\section{Root}
+
+\begin{equation}
+\begin{split}
+  <root> & ::= <stmt-list> \\
+  <stmt-list> & ::= <stmt> <stmt-list> | <stmt> \\
+  <stmt> & ::= <assignment> | <expr> | <if-stmt> | <loopexp> \\
+  &| <function-declaration> | <function-invocation> \\
+\end{split}
+\end{equation}
+
+\section{Assignment}
+
+\begin{equation}
+\begin{split}
+  <assignment> & ::= <declarator>; | <reassign>; \\
+\end{split}
+\end{equation}
+
+\subsection{Declarator}
+
+\begin{equation}
+\begin{split}
+  <declarator> & ::= <type-name>  <declarator-list> \\
+  <type-name> & ::= boolean  |  int  |  float  |  char  |  string \\
+  <declarator-list> & ::= <delarator> | <declarator>, <declarator-list> \\
+  <declarator> & ::= id  | id = <expr> | id<array-list> | id<array-list> = \{ <list-values> \} \\
+  <array-list> & ::= [<value>] | [<value>]<array-list> \\
+  <list-values> & ::= <expr>, <list-values> | <expr> | \{ <list-values> \} \\
+  <value> & ::= integer | float | <empty> \\
+\end{split}
+\end{equation}
+
+\subsection{Reassignment}
+
+\begin{equation}
+\begin{split}
+  <reassign> & ::= id = <expr>  | id<reassign-array-list> = <expr> \\
+  <reassign-array-list> & ::= [<reassign-value>] | [<reassign-value>]<reassign-array-list> \\
+  <reassign-value> & ::= integer | float \\
+\end{split}
+\end{equation}
+
+\section{Expressions}
+
+\begin{equation}
+\begin{split}
+  <expr> & ::= <stringexp> | <logconj> | <addsubexp> \\
+\end{split}
+\end{equation}
+
+\subsection{Boolean Operations}
+
+\begin{equation}
+\begin{split}
+  <logconj> & ::= <logconj> || <logdisj> | <logdisj> \\
+  <logdisj> & ::= <logdisj> \&\& <logneg> | <logneg> \\
+  <logneg> & ::= !<compopt> | <compopt> \\
+  <compopt> & ::=  <stringexp>\  ==\  <stringexp> | <addsubexp>\  >=\  <addsubexp> \\
+            &     | <addsubexp>\  <=\  <addsubexp> | <stringexp>\  !=\  <stringexp> \\
+\end{split}
+\end{equation}
+
+\subsection{String operators}
+
+\begin{equation}
+\begin{split}
+  <stringexp> & ::= <stringroot> + <stringexp> | <stringroot> | <addsubexp>  \\
+  <stringroot> & ::= string | id \\
+\end{split}
+\end{equation}
+
+\subsection{Arithmatic expressions}
+
+\begin{equation}
+\begin{split}
+  <addsubexp> & ::= <addsubexp> + <muldivexp> | <addsubexp> - <muldivexp> | <muldivexp> \\
+  <muldivexp> & ::= <muldivexp> * <expexp> | <muldivexp> / <expexp> | <expexp> \\
+  <expexp> & ::= <rootexp> \# <expexp> | <rootexp> \\
+  <rootexp> & ::= (<expr>) |  id  |  integer  |  float \\
+\end{split}
+\end{equation}
+
+\section{Conditional}
+
+\begin{equation}
+\begin{split}
+  <if-stmt> & ::= if (<expr>) \{ <stmt-list> \} else \{ <stmt-list> \} | if (<expr>) \{ <stmt-list> \} \\
+\end{split}
+\end{equation}
+
+\section{Loops}
+
+\begin{equation}
+\begin{split}
+  <loopexp> & ::= <forloop> | <whileloop> \\
+  <forloop> & ::= for (assignment; <compopt>; <reassign>) \{ <stmt-list> \} \\
+  <whileloop> & ::= for (<compopt>) \{ <stmt-list> \} \\
+\end{split}
+\end{equation}
+
+\section{Functions}
+
+\subsection{Declare}
+
+\begin{equation}
+\begin{split}
+  <function-declaration> & ::= <func-type> id (<declare-arg-list>) \{ <stmt-list> \} \\
+  <func-type> & ::= <type-name> | void \\
+  <declare-arg-list> & ::= <declare-arg>, <arg-list> | <declare-arg> \\
+  <declare-arg> & ::= <type-name> id | <empty> \\
+\end{split}
+\end{equation}
+
+\subsection{Invocation}
+
+\begin{equation}
+\begin{split}
+  <function-invocation> & ::= <type-name> id = id(arg-list); | id(arg-list); \\
+  <arg-list> & ::= <arg>, <arg-list> | <arg> \\
+  <arg> & ::= <declarator> | id | <empty> \\
+\end{split}
+\end{equation}
+
+\end{document}
